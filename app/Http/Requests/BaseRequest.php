@@ -19,8 +19,8 @@ abstract class BaseRequest extends FormRequest
             'required' => ':attribute không được để trống',
             'email' => ':attribute không đúng định dạng',
             'unique' => ':attribute đã tồn tại',
-            'min' => 'Phải có ít nhất :min ký tự',
-            'max' => 'Không được quá :max ký tự',
+            'min' => ':attribute phải có ít nhất :min ký tự',
+            'max' => ':attribute không được quá :max ký tự',
             'numeric' => ':attribute phải là số ',
             'string'=>'Phải là dạng chữ',
 
@@ -59,7 +59,6 @@ abstract class BaseRequest extends FormRequest
 
             //product
             'price' => "Giá",
-            'price' => "Giá",
 
             //order-item
             'quantity' => 'Số lượng',
@@ -75,7 +74,7 @@ abstract class BaseRequest extends FormRequest
         $response = response()->json([
             'success' => false,
             'message' => "Dữ liệu chưa hợp lệ",
-            'errers' => $validator->errors()->first(),
+            'errors' => $validator->errors()
 
         ], 422);
           throw new HttpResponseException($response);

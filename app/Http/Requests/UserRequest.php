@@ -2,46 +2,35 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Requests\BaseRequest;
+use Illuminate\Validation\Rule;
 
 class UserRequest extends BaseRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return false;
-    }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, mixed>
-     */
     public function rules()
     {
+        $userId = $this->route('id');
 
-        $userId= $this->route('id');
-
-
-         if ($this->isMethod('post')) {
+        if ($this->isMethod('post')) {
             return [
-                'email' => 'required|email|unique:users',
+                'email' => 'required|email|unique:users,email',
                 'password' => 'required|min:6',
             ];
-        };
+        }
 
-
-
-        if ($this->isMethod("put" || $this->isMethod("patch"))) {
+        if ($this->isMethod('put')) {
             return [
-                'email'=>'sometimes|email|unique:user,email,' . $userId,
-
+                'name' => 'sometimes|string|max:255',
+                'email' => [
+                    'sometimes',
+                    'email',
+                    Rule::unique('users', 'email')->ignore($userId, 'id'),
+                    
+                ],
+                'address' => 'sometimes|string|max:255',
+                'phone' => 'sometimes|string|max:15',
             ];
-        };
-
+        }
 
         return [];
     }

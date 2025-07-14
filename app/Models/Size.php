@@ -9,13 +9,12 @@ class Size extends Model
 {
     use HasFactory;
 
-     protected $fillable = [
+    protected $fillable = [
         'name',
     ];
 
-  public function productVariants()
+    public function productVariants()
     {
-    return $this->hasMany(Product_variant::class);
+        return $this->hasMany(Product_variant::class);
     }
-
 }
