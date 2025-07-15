@@ -2,84 +2,78 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ColorRequest;
 use App\Models\Color;
 use Illuminate\Http\Request;
 
 class ColorController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        //
+        $color = Color::all();
+        return response()->json([
+            'success' => true,
+            'data' => $color,
+            'message' => 'lay color thanh cong',
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+
+    public function store(ColorRequest $request)
     {
-        //
+
+        $data = $request->only(['name']);
+
+        $color = Color::create($data);
+
+        return response()->json([
+            'success' => true,
+            'message' => "Tao thanh cong",
+            'data' => $color,
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+
+    public function show($id)
     {
-        //
+        $color = Color::findOrFail($id);
+
+        return response()->json([
+            'success' => true,
+            'message' => "lay details color thanh cong",
+            'data' => $color,
+        ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Color  $color
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Color $color)
+
+
+    public function update(ColorRequest $request, $id)
     {
-        //
+
+        $data = $request->only(['name']);
+
+        $color = Color::findOrFail($id);
+
+        $color->update($data);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Cap nhat thanh cong',
+            'data' => $color
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Color  $color
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Color $color)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Color  $color
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Color $color)
+    public function destroy($id)
     {
-        //
-    }
+        $color = Color::findOrFail($id);
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Color  $color
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Color $color)
-    {
-        //
+        $color->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Xoa hanh cong',
+        ]);
     }
 }

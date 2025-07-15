@@ -23,6 +23,7 @@ abstract class BaseRequest extends FormRequest
             'max' => ':attribute không được quá :max ký tự',
             'numeric' => ':attribute phải là số ',
             'string'=>'Phải là dạng chữ',
+            'exists'=>':attribute không tồn tại'
 
         ];
     }

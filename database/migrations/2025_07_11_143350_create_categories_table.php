@@ -18,6 +18,8 @@ return new class extends Migration
             $table->char('name',200);
             $table->char('slug',200);
             $table->boolean("status")->default(true);
+            $table->unsignedBigInteger('parent_id')->nullable();
+            $table->foreign('parent_id')->nullable()->references('id')->on('categories')->onDelete('cascade');
             $table->timestamps();
         });
     }
