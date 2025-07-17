@@ -1,13 +1,12 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WishlistController;
-use App\Models\Category;
-use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -42,8 +41,6 @@ Route::prefix('category')->group(function () {
     Route::get('/', [CategoryController::class, 'index']);
     Route::get('/{id}', [CategoryController::class, 'show']);
     Route::get('/type/{id}', [CategoryController::class, 'type']);
-
-
 
 
 
@@ -92,7 +89,16 @@ Route::prefix('wishlist')->group(function () {
     Route::get('/{id}', [WishlistController::class, 'index']);
 
 
-
     Route::post('/', [WishlistController::class, 'store']);
     Route::delete('/{id}', [WishlistController::class, 'destroy']);
+});
+
+
+//cart
+Route::prefix('cart')->group(function () {
+    Route::get('/{id}', [CartController::class, 'index']);
+
+
+    Route::post('/', [CartController::class, 'store']);
+    Route::delete('/{id}', [CartController::class, 'destroy']);
 });
