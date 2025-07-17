@@ -44,6 +44,17 @@ class CategoryController extends Controller
         //
     }
 
+    public function type($id)
+    {
+         $product = Category::with('product')->findOrFail($id);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Lay tat san pham thuoc type thanh cong',
+            'data' => $product,
+        ]);
+    }
+
 
     public function show(CaterogyRequest $request, $id)
     {

@@ -15,7 +15,7 @@ class Product extends Model
         'description',
         'price',
         'slug',
-        'image_Id',
+        'image_id',
         'category_id',
         'status',
     ];
@@ -40,15 +40,15 @@ class Product extends Model
 
 
 
-    public function categories()
+    public function category()
     {
-        return $this->hasMany(Category::class);
+        return $this->belongsTo(Category::class,'category_id');
     }
 
 
-    public function images()
+    public function image()
     {
-        return $this->hasMany(Image::class);
+        return $this->belongsTo(Image::class,'image_id');
     }
 
 
@@ -73,6 +73,11 @@ class Product extends Model
     public function Wishlist()
     {
         return $this->belongsTo(Wishlist::class);
+    }
+
+     public function product_images()
+    {
+        return $this->belongsTo(Product_image::class);
     }
 
 

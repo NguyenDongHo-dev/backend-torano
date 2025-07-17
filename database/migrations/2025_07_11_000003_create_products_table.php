@@ -17,10 +17,10 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->longText('description')->nullable();
-            $table->decimal('price',10,2);
+            $table->decimal('price', 10, 2);
             $table->string("slug");
             $table->boolean('status')->default(true);
-            $table->foreignId('image_id')->nullable()->constrained()->onDelete('set null');
+            $table->foreignId('image_id')->nullable()->constrained()->onDelete("set null");
             $table->foreignId('category_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamps();
         });

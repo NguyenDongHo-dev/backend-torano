@@ -2,84 +2,51 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\WishlistRequest;
 use App\Models\Wishlist;
 use Illuminate\Http\Request;
 
 class WishlistController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index($id)
     {
-        //
+
+        $wishlist  = Wishlist::with('product')->where('user_id', $id)->get();
+        $products = $wishlist->pluck('product');
+
+        return response()->json([
+            'success' => true,
+            'data' => $products,
+            'message' => 'Lay san pham wishlist thanh cong',
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+
+    public function store(WishlistRequest $request)
     {
-        //
+        $data = $request->only(['user_id', 'product_id']);
+
+
+        $wishlist = Wishlist::create($data);
+
+        return response()->json([
+            'success' => true,
+            'message' => "Tao wishlist thanh cong",
+            'data' => $wishlist,
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Wishlist  $wishlist
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Wishlist $wishlist)
+    public function destroy(WishlistRequest $request, $id)
     {
-        //
-    }
+        $productId = $request->input('product_id');
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Wishlist  $wishlist
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Wishlist $wishlist)
-    {
-        //
-    }
+        Wishlist::where('user_id', $id)->where('product_id', $productId)->delete();
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Wishlist  $wishlist
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Wishlist $wishlist)
-    {
-        //
-    }
+        return response()->json([
+            'success' => true,
+            'message' => 'Xoa thanh cong',
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Wishlist  $wishlist
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Wishlist $wishlist)
-    {
-        //
+        ]);
     }
 }
